@@ -7,15 +7,29 @@
 //
 
 import UIKit
+import Parse
+
+let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        Parse.initializeWithConfiguration(
+            ParseClientConfiguration(block: { (configuration:ParseMutableClientConfiguration) -> Void in
+                configuration.applicationId = "Stagram"
+                configuration.clientKey = "wuihdakjscy4981489urdwi"
+                configuration.server = "https://frozen-woodland-76241.herokuapp.com/parse"
+            })
+        )
+        if PFUser.currentUser() != nil {
+            print("Detect current User: \(PFUser.currentUser()!.username!)")
+            let tabViewController = mainStoryboard.instantiateViewControllerWithIdentifier("Entry") as! TabViewController
+            window?.rootViewController = tabViewController
+            window?.makeKeyAndVisible()
+        }
         return true
     }
 
