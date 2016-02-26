@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController,UITextFieldDelegate {
 
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -67,10 +67,17 @@ class SignInViewController: UIViewController {
         passwordField.secureTextEntry = true
         SignInButton.layer.cornerRadius = 10
         SignUpButton.layer.cornerRadius = 10
+        passwordField.delegate = self
+        usernameField.delegate = self
     }
     
     func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
 }
 

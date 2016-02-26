@@ -8,11 +8,14 @@
 
 import UIKit
 
+var tabViewController: TabViewController?
+
 class TabViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTabs()
+        tabViewController = self
     }
     
     func setUpTabs(){

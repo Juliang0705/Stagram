@@ -32,6 +32,47 @@ class UserMedia: NSObject {
         media.saveInBackgroundWithBlock(completion)
     }
     
+    class func postProfieImage(image: UIImage?, withCompletion completion: PFBooleanResultBlock?){
+        
+        let query = PFQuery(className: "ProfileImage")
+        query.whereKey("username", equalTo: PFUser.currentUser()!.username!)
+        query.findObjectsInBackgroundWithBlock { (profiles, error) -> Void in
+            if error == nil && profiles!.count != 0{
+                let oldProfile = profiles!.first!
+                oldProfile["image"] = getPFFileFromImage(image)
+                oldProfile.saveInBackgroundWithBlock(completion)
+            }else{
+                print(error)
+                let profile = PFObject(className: "ProfileImage")
+                profile["image"] = getPFFileFromImage(image)
+                profile["owner"] = PFUser.currentUser()
+                profile["username"] = PFUser.currentUser()!.username
+                profile.saveInBackgroundWithBlock(completion)
+            }
+        }
+    }
+    
+    class func fetchProfileImage(user user: PFUser, completion: (UIImage?,NSError?) -> ()){
+            let query = PFQuery(className: "ProfileImage")
+        query.whereKey("username", equalTo: user.username!)
+            query.findObjectsInBackgroundWithBlock({ (profiles, error) -> Void in
+                if error == nil && profiles!.count != 0{
+                    let profile = profiles!.first!
+                    let imagefile = profile.objectForKey("image") as? PFFile
+                    print("Image is \(imagefile)")
+                    imagefile?.getDataInBackgroundWithBlock({ (data, error) -> Void in
+                        if (error == nil){
+                            let image = UIImage(data: data!)
+                            completion(image,nil)
+                        }else{
+                            completion(nil,error)
+                        }
+                    })
+                }else{
+                    completion(nil,error)
+                }
+            })
+    }
     /**
      Method to post user media to Parse by uploading image file
      

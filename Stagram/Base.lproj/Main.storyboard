@@ -8,7 +8,7 @@
         <!--Sign In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SignInViewController" customModule="Stagram" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignIn" id="BYZ-38-t0r" customClass="SignInViewController" customModule="Stagram" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -23,7 +23,7 @@
                                 <color key="textColor" red="0.94901960780000005" green="0.96470588239999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hjB-Nk-f7W">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hjB-Nk-f7W">
                                 <rect key="frame" x="0.0" y="317" width="414" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -33,7 +33,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="64"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="RCf-zn-3s4">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="RCf-zn-3s4">
                                 <rect key="frame" x="0.0" y="406" width="414" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -168,9 +168,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="VRJ-E8-yqt">
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="iad-Qf-orA">
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="Ggn-Ca-3uI">
                             <connections>
-                                <action selector="cameraButtonClicked:" destination="LtC-7o-9Ua" id="hfw-qH-d0l"/>
+                                <action selector="cameraButtonClicked:" destination="LtC-7o-9Ua" id="vo2-1I-cmN"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="iad-Qf-orA">
+                            <connections>
+                                <action selector="sharedButtonClicked:" destination="LtC-7o-9Ua" id="22E-s6-oXu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -214,10 +219,61 @@
                     <view key="view" contentMode="scaleToFill" id="Rv7-FW-SpA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="5kY-GV-Zy2">
+                                <rect key="frame" x="87" y="155" width="240" height="161"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="CBx-SM-4kR"/>
+                                    <constraint firstAttribute="height" constant="161" id="zb1-kP-dYk"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Posts:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cRS-d6-BSE">
+                                <rect key="frame" x="140" y="400.5" width="47.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PostCount" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exo-SJ-sVw">
+                                <rect key="frame" x="200.5" y="400.5" width="80.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Og-Up-WT0">
+                                <rect key="frame" x="145.5" y="345" width="123.5" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="exo-SJ-sVw" firstAttribute="top" secondItem="0Og-Up-WT0" secondAttribute="bottom" constant="22" id="FCi-f1-dgi"/>
+                            <constraint firstItem="0Og-Up-WT0" firstAttribute="leading" secondItem="Rv7-FW-SpA" secondAttribute="leading" priority="250" constant="145" id="FUO-hY-wji"/>
+                            <constraint firstItem="5kY-GV-Zy2" firstAttribute="top" secondItem="1ju-X1-iat" secondAttribute="bottom" constant="91" id="IHG-ku-V8U"/>
+                            <constraint firstAttribute="trailing" secondItem="5kY-GV-Zy2" secondAttribute="trailing" priority="999" constant="87" id="YP5-I9-2rf"/>
+                            <constraint firstItem="cRS-d6-BSE" firstAttribute="top" secondItem="0Og-Up-WT0" secondAttribute="bottom" constant="22" id="eCo-E4-HMa"/>
+                            <constraint firstItem="5kY-GV-Zy2" firstAttribute="leading" secondItem="Rv7-FW-SpA" secondAttribute="leading" priority="999" constant="87" id="gWd-Sv-2nH"/>
+                            <constraint firstAttribute="trailing" secondItem="0Og-Up-WT0" secondAttribute="trailing" priority="250" constant="145" id="lFv-7G-hu8"/>
+                            <constraint firstItem="0Og-Up-WT0" firstAttribute="top" secondItem="5kY-GV-Zy2" secondAttribute="bottom" constant="29" id="lcP-fI-Run"/>
+                            <constraint firstItem="cRS-d6-BSE" firstAttribute="leading" secondItem="Rv7-FW-SpA" secondAttribute="leading" constant="140" id="mb1-5t-DhF"/>
+                            <constraint firstItem="exo-SJ-sVw" firstAttribute="leading" secondItem="cRS-d6-BSE" secondAttribute="trailing" constant="13" id="rpd-jq-RT7"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ct8-7f-Y5k"/>
+                    <navigationItem key="navigationItem" id="Ct8-7f-Y5k">
+                        <barButtonItem key="rightBarButtonItem" title="Sign Out" id="Q5c-3N-CkQ">
+                            <connections>
+                                <action selector="signOutButtonClicked:" destination="AlE-nz-a0b" id="qNx-kj-X35"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="postCountLabel" destination="exo-SJ-sVw" id="764-VA-hrh"/>
+                        <outlet property="profileImageView" destination="5kY-GV-Zy2" id="ynN-XC-XNS"/>
+                        <outlet property="signOutButton" destination="Q5c-3N-CkQ" id="FNu-PQ-uGy"/>
+                        <outlet property="usernameLabel" destination="0Og-Up-WT0" id="v4E-io-1Qs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sxQ-pM-6HC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -335,4 +391,7 @@
             <point key="canvasLocation" x="3939" y="1160"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="placeholder" width="500" height="350"/>
+    </resources>
 </document>

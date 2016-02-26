@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-
+let UserDidLogOut = "UserDidLogOut"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -30,7 +30,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = tabViewController
             window?.makeKeyAndVisible()
         }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogOut", name: UserDidLogOut, object: nil)
+        
         return true
+    }
+    
+    func userDidLogOut(){
+        let signInViewController = mainStoryboard.instantiateViewControllerWithIdentifier("SignIn") as! SignInViewController
+        window?.rootViewController = signInViewController
     }
 
     func applicationWillResignActive(application: UIApplication) {
