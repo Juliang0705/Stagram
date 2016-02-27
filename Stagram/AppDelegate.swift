@@ -24,20 +24,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 configuration.server = "https://frozen-woodland-76241.herokuapp.com/parse"
             })
         )
+        initUserinfo()
         if PFUser.currentUser() != nil {
             print("Detect current User: \(PFUser.currentUser()!.username!)")
             let tabViewController = mainStoryboard.instantiateViewControllerWithIdentifier("Entry") as! TabViewController
+            let activityString = "\(PFUser.currentUser()!.username!) signed in to Stagram :)"
+            UserMedia.postUserActivity(activity: activityString, completion: { (succ, error) -> Void in })
             window?.rootViewController = tabViewController
             window?.makeKeyAndVisible()
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userDidLogOut", name: UserDidLogOut, object: nil)
-        
         return true
     }
     
     func userDidLogOut(){
         let signInViewController = mainStoryboard.instantiateViewControllerWithIdentifier("SignIn") as! SignInViewController
         window?.rootViewController = signInViewController
+    }
+    
+    func initUserinfo(){
+        UserMedia.initProfileImage { (object, error) -> () in
+            if error == nil{
+                profileImageObject = object
+            }else{
+                print("Fatal Error: \(error!)")
+            }
+        }
+        
+        UserMedia.initSharedImagedCount { (object, error) -> () in
+            if error == nil{
+                postCountObject = object
+            }else{
+                print("Fatal Error: \(error!)")
+            }
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {

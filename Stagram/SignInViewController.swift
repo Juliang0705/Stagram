@@ -29,6 +29,8 @@ class SignInViewController: UIViewController,UITextFieldDelegate {
                 showWarningViewWithMessage(error.localizedDescription, title: error.localizedFailureReason, parentViewController: self)
             } else {
                 print("User logged in successfully")
+                let activityString = "\(PFUser.currentUser()!.username!) signed in to Stagram :)"
+                UserMedia.postUserActivity(activity: activityString, completion: { (succ, error) -> Void in })
                 self.performSegueWithIdentifier("Entry", sender: self)
             }
         }

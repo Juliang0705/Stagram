@@ -30,16 +30,21 @@ class UserViewController: UIViewController,UIImagePickerControllerDelegate,UINav
             selectedUser = PFUser.currentUser()
         }
         usernameLabel.text = selectedUser?.username!
-        
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "changeProfilePicture")
-        profileImageView.userInteractionEnabled = true
-        profileImageView.addGestureRecognizer(tapRecognizer)
-        
+        if (selectedUser!.objectId! == PFUser.currentUser()!.objectId!){
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: "changeProfilePicture")
+            profileImageView.userInteractionEnabled = true
+            profileImageView.addGestureRecognizer(tapRecognizer)
+        }else{
+            signOutButton.enabled = false
+            signOutButton.title = ""
+        }
         getUserProfilePicture()
-        
+        getUserPostImageCount()
     }
 
     @IBAction func signOutButtonClicked(sender: UIBarButtonItem) {
+        let activityString = "\(PFUser.currentUser()!.username!) logged out of Stagram :("
+        UserMedia.postUserActivity(activity: activityString, completion: { (succ, error) -> Void in })
         PFUser.logOut()
         NSNotificationCenter.defaultCenter().postNotificationName(UserDidLogOut,object: nil)
     }
@@ -56,14 +61,17 @@ class UserViewController: UIViewController,UIImagePickerControllerDelegate,UINav
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in })
         print (image.description)
-        UserMedia.postProfieImage(image) { (success, error) -> Void in
+        let size = self.profileImageView.frame.size
+        let resizedImage = resize(image, newSize: size)
+        UserMedia.postProfieImage(resizedImage) { (success, error) -> Void in
             if error == nil{
                 self.getUserProfilePicture()
+                let activityString = "\(PFUser.currentUser()!.username!) changed profile image."
+                UserMedia.postUserActivity(activity: activityString, completion: { (succ, error) -> Void in })
             }else{
                 showWarningViewWithMessage(error!.localizedDescription, title: "Upload Failed", parentViewController: self)
             }
         }
-        
     }
     
     
@@ -73,6 +81,16 @@ class UserViewController: UIViewController,UIImagePickerControllerDelegate,UINav
                 self.profileImageView.image = image
             }else{
                 print("Picture getting failed: \(error)")
+            }
+        }
+    }
+    
+    func getUserPostImageCount(){
+        UserMedia.fetchPostImageCount(user: selectedUser!) { (count, error) -> () in
+            if (error == nil && count != nil){
+                self.postCountLabel.text = "\(count!)"
+            }else{
+                self.postCountLabel.text = "0"
             }
         }
     }

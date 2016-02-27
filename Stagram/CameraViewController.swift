@@ -9,6 +9,7 @@
 import UIKit
 import ALCameraViewController
 import BFRadialWaveHUD
+import Parse
 
 func resize(image: UIImage, newSize: CGSize) -> UIImage {
     let resizeImageView = UIImageView(frame: CGRectMake(0, 0, newSize.width, newSize.height))
@@ -57,14 +58,18 @@ class CameraViewController: UIViewController,UINavigationControllerDelegate,UIIm
     func ShowCaptionTextField(tap : UITapGestureRecognizer){
         if (captionTextField == nil){
             let tapPosition = tap.locationInView(self.view)
-            let textField = UITextField(frame: CGRect(x: 0, y: tapPosition.y, width: self.view.bounds.width, height: 35))
+            var yPosition = tapPosition.y
+            if !(yPosition > self.view.frame.height * 0.2 && yPosition < self.view.frame.height * 0.8) {
+                yPosition = self.view.frame.height * 0.5
+            }
+            let textField = UITextField(frame: CGRect(x: 0, y: yPosition, width: self.view.bounds.width, height: 35))
             textField.textColor = UIColor.whiteColor()
             textField.borderStyle = .None
             textField.textAlignment = .Center
             textField.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
             textField.font = UIFont(name: "", size: 20)
             self.captionTextField = textField
-            self.captionTextField?.tag = Int(tapPosition.y)
+            self.captionTextField?.tag = Int(yPosition)
             self.captionTextField?.delegate = self
             self.captionTextField?.addPanGesture()
             self.view.addSubview(self.captionTextField!)
@@ -153,11 +158,14 @@ class CameraViewController: UIViewController,UINavigationControllerDelegate,UIIm
 
     @IBAction func sharedButtonClicked(sender: UIBarButtonItem) {
         let imageWithCaption = self.view.getImageWithAllSubviews()
-        let caption = self.captionTextField?.text
+        let caption = self.captionTextField?.text == nil ? "" : self.captionTextField?.text!
         loadingView.showWithMessage("Uploading")
         UserMedia.postUserImage(imageWithCaption, withCaption: caption) { (success, error) -> Void in
             self.loadingView.dismiss()
             if error == nil{
+                UserMedia.incrementPostImageCount({ (succ, error) -> Void in })
+                let activityString = "\(PFUser.currentUser()!.username!) posted an image with caption \"\(caption!)\""
+                UserMedia.postUserActivity(activity: activityString, completion: { (succ, error) -> Void in })
                 showWarningViewWithMessage("Picture Shared!", title: "Success", parentViewController: self)
                 tabViewController?.selectedIndex = 0
             }else{

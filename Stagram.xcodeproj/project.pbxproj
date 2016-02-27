@@ -11,6 +11,11 @@
 		389309141C7BEEBA009B9F58 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 389309121C7BEEBA009B9F58 /* Main.storyboard */; };
 		389309161C7BEEBA009B9F58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 389309151C7BEEBA009B9F58 /* Assets.xcassets */; };
 		389309191C7BEEBA009B9F58 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 389309171C7BEEBA009B9F58 /* LaunchScreen.storyboard */; };
+		38DF834A1C80EA4A00774C34 /* HomeScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DF83491C80EA4A00774C34 /* HomeScreenCell.swift */; };
+		38DF834E1C81611C00774C34 /* HomeScreenHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38DF834D1C81611C00774C34 /* HomeScreenHeaderView.xib */; };
+		38DF83501C81618000774C34 /* HomeScreenHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DF834F1C81618000774C34 /* HomeScreenHeaderView.swift */; };
+		38DF83521C8184FD00774C34 /* ActivityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DF83511C8184FD00774C34 /* ActivityViewCell.swift */; };
+		38DF83541C819CA500774C34 /* SearchViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38DF83531C819CA500774C34 /* SearchViewCell.swift */; };
 		38F3B90D1C7E7D2A001F2466 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3B90C1C7E7D2A001F2466 /* SignInViewController.swift */; };
 		38F3B90F1C7EA7ED001F2466 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3B90E1C7EA7ED001F2466 /* HomeScreenViewController.swift */; };
 		38F3B9131C7EAE40001F2466 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F3B9121C7EAE40001F2466 /* SearchViewController.swift */; };
@@ -29,6 +34,11 @@
 		389309151C7BEEBA009B9F58 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		389309181C7BEEBA009B9F58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3893091A1C7BEEBA009B9F58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38DF83491C80EA4A00774C34 /* HomeScreenCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenCell.swift; sourceTree = "<group>"; };
+		38DF834D1C81611C00774C34 /* HomeScreenHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeScreenHeaderView.xib; sourceTree = "<group>"; };
+		38DF834F1C81618000774C34 /* HomeScreenHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenHeaderView.swift; sourceTree = "<group>"; };
+		38DF83511C8184FD00774C34 /* ActivityViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewCell.swift; sourceTree = "<group>"; };
+		38DF83531C819CA500774C34 /* SearchViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewCell.swift; sourceTree = "<group>"; };
 		38F3B90C1C7E7D2A001F2466 /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		38F3B90E1C7EA7ED001F2466 /* HomeScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenViewController.swift; sourceTree = "<group>"; };
 		38F3B9121C7EAE40001F2466 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +110,11 @@
 			isa = PBXGroup;
 			children = (
 				38F3B91E1C7EBB67001F2466 /* UserMedia.swift */,
+				38DF83491C80EA4A00774C34 /* HomeScreenCell.swift */,
+				38DF834D1C81611C00774C34 /* HomeScreenHeaderView.xib */,
+				38DF834F1C81618000774C34 /* HomeScreenHeaderView.swift */,
+				38DF83511C8184FD00774C34 /* ActivityViewCell.swift */,
+				38DF83531C819CA500774C34 /* SearchViewCell.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -197,6 +212,7 @@
 			files = (
 				389309191C7BEEBA009B9F58 /* LaunchScreen.storyboard in Resources */,
 				389309161C7BEEBA009B9F58 /* Assets.xcassets in Resources */,
+				38DF834E1C81611C00774C34 /* HomeScreenHeaderView.xib in Resources */,
 				389309141C7BEEBA009B9F58 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,11 +274,15 @@
 			files = (
 				38F3B91D1C7EB4C5001F2466 /* TabViewController.swift in Sources */,
 				38F3B9131C7EAE40001F2466 /* SearchViewController.swift in Sources */,
+				38DF83541C819CA500774C34 /* SearchViewCell.swift in Sources */,
 				38F3B9191C7EAEC7001F2466 /* UserViewController.swift in Sources */,
 				38F3B90D1C7E7D2A001F2466 /* SignInViewController.swift in Sources */,
+				38DF834A1C80EA4A00774C34 /* HomeScreenCell.swift in Sources */,
+				38DF83501C81618000774C34 /* HomeScreenHeaderView.swift in Sources */,
 				3893090F1C7BEEBA009B9F58 /* AppDelegate.swift in Sources */,
 				38F3B9171C7EAE96001F2466 /* ActivityViewController.swift in Sources */,
 				38F3B90F1C7EA7ED001F2466 /* HomeScreenViewController.swift in Sources */,
+				38DF83521C8184FD00774C34 /* ActivityViewCell.swift in Sources */,
 				38F3B91F1C7EBB67001F2466 /* UserMedia.swift in Sources */,
 				38F3B9151C7EAE61001F2466 /* CameraViewController.swift in Sources */,
 			);

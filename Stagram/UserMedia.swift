@@ -9,7 +9,12 @@
 import UIKit
 import Parse
 
+var profileImageObject: PFObject?
+var postCountObject: PFObject?
+
 class UserMedia: NSObject {
+    
+    
     /**
      Method to post user media to Parse by uploading image file
      
@@ -27,29 +32,83 @@ class UserMedia: NSObject {
         media["caption"] = caption
         media["likesCount"] = 0
         media["commentsCount"] = 0
-        
+        media["profileImage"] = profileImageObject
+        media["postCount"] = postCountObject
         // Save object (following function will save the object in Parse asynchronously)
         media.saveInBackgroundWithBlock(completion)
     }
     
-    class func postProfieImage(image: UIImage?, withCompletion completion: PFBooleanResultBlock?){
-        
+    class func fetchHomeScreenImages(completion completion:([PFObject]?, NSError?) -> ()){
+        let query = PFQuery(className: "UserMedia")
+        query.orderByDescending("createdAt")
+        query.includeKey("author")
+        query.includeKey("profileImage")
+        query.includeKey("postCount")
+        query.limit = 20
+        query.findObjectsInBackgroundWithBlock(completion)
+    }
+    
+    class func fetchImagesWithSearch(search: String, completion:([PFObject]?, NSError?) -> ()){
+        let query = PFQuery(className: "UserMedia")
+        query.whereKey("caption", containsString: search)
+        query.orderByDescending("createdAt")
+        query.includeKey("author")
+        query.includeKey("profileImage")
+        query.includeKey("postCount")
+        query.limit = 20
+        query.findObjectsInBackgroundWithBlock(completion)
+    }
+    
+    class func initProfileImage(completion: ((PFObject?,NSError?)->())){
         let query = PFQuery(className: "ProfileImage")
         query.whereKey("username", equalTo: PFUser.currentUser()!.username!)
         query.findObjectsInBackgroundWithBlock { (profiles, error) -> Void in
             if error == nil && profiles!.count != 0{
-                let oldProfile = profiles!.first!
-                oldProfile["image"] = getPFFileFromImage(image)
-                oldProfile.saveInBackgroundWithBlock(completion)
+                let oldProfile: PFObject = profiles!.first!
+                completion(oldProfile,nil)
             }else{
-                print(error)
                 let profile = PFObject(className: "ProfileImage")
-                profile["image"] = getPFFileFromImage(image)
+                profile["image"] = getPFFileFromImage(UIImage(named: "placeholder.png"))
                 profile["owner"] = PFUser.currentUser()
                 profile["username"] = PFUser.currentUser()!.username
-                profile.saveInBackgroundWithBlock(completion)
+                profile.saveInBackgroundWithBlock({ (succ, error) -> Void in
+                    if error == nil{
+                        completion(profile,nil)
+                    }else{
+                        completion(nil,error)
+                    }
+                })
             }
         }
+    }
+    
+    class func initSharedImagedCount(completion: ((PFObject?,NSError?)->())){
+        let query = PFQuery(className: "PostCount")
+        query.whereKey("username", equalTo: PFUser.currentUser()!.username!)
+        query.findObjectsInBackgroundWithBlock { (profiles, error) -> Void in
+            if error == nil && profiles!.count != 0{
+                let profile = profiles!.first!
+                completion(profile,nil)
+            }else{
+                let profile = PFObject(className: "PostCount")
+                profile["count"] = 0
+                profile["owner"] = PFUser.currentUser()
+                profile["username"] = PFUser.currentUser()!.username
+                profile.saveInBackgroundWithBlock({ (succ, error) -> Void in
+                    if error == nil{
+                        completion(profile,nil)
+                    }else{
+                        completion(nil,error)
+                    }
+                })
+            }
+        }
+    }
+    class func postProfieImage(image: UIImage?, withCompletion completion: PFBooleanResultBlock?){
+        
+        profileImageObject?["image"] = getPFFileFromImage(image)
+        profileImageObject?.saveInBackgroundWithBlock(completion)
+        
     }
     
     class func fetchProfileImage(user user: PFUser, completion: (UIImage?,NSError?) -> ()){
@@ -59,7 +118,6 @@ class UserMedia: NSObject {
                 if error == nil && profiles!.count != 0{
                     let profile = profiles!.first!
                     let imagefile = profile.objectForKey("image") as? PFFile
-                    print("Image is \(imagefile)")
                     imagefile?.getDataInBackgroundWithBlock({ (data, error) -> Void in
                         if (error == nil){
                             let image = UIImage(data: data!)
@@ -73,6 +131,46 @@ class UserMedia: NSObject {
                 }
             })
     }
+    
+    class func postPostImageCount(count count: Int, completion: PFBooleanResultBlock){
+        postCountObject?["count"] = count
+        postCountObject?.saveInBackgroundWithBlock(completion)
+    }
+    
+    class func incrementPostImageCount(completion: PFBooleanResultBlock){
+        postCountObject?["count"] = (postCountObject?["count"] as! Int ) + 1
+        postCountObject?.saveInBackgroundWithBlock(completion)
+    }
+    
+    class func fetchPostImageCount(user user:PFUser, completion:(Int?,NSError?)->()){
+        let query = PFQuery(className: "PostCount")
+        query.whereKey("username", equalTo: user.username!)
+        query.findObjectsInBackgroundWithBlock { (profiles, error) -> Void in
+            if error == nil && profiles!.count != 0{
+                let profile = profiles!.first!
+                let count = profile.objectForKey("count") as? Int
+                completion(count,nil)
+            }else{
+                completion(nil,error)
+            }
+        }
+    }
+    
+    class func postUserActivity(activity activity: String, completion: PFBooleanResultBlock){
+        let userActivity = PFObject(className: "UserActivity")
+        userActivity["activity"] = activity
+        userActivity["author"] = PFUser.currentUser()
+        userActivity.saveInBackgroundWithBlock(completion)
+    }
+    
+    class func fetchUserActivity(completion completion:([PFObject]?,NSError?)->()){
+        let query = PFQuery(className: "UserActivity")
+        query.orderByDescending("createdAt")
+        query.includeKey("author")
+        query.limit = 20
+        query.findObjectsInBackgroundWithBlock(completion)
+    }
+    
     /**
      Method to post user media to Parse by uploading image file
      
