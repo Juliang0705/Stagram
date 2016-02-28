@@ -47,6 +47,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
+I couldn't get rid of annoy white space around the images after resizing them.
 
 ## License
 
