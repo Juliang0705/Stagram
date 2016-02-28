@@ -24,7 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 configuration.server = "https://frozen-woodland-76241.herokuapp.com/parse"
             })
         )
-        initUserinfo()
+        
+        
+        UINavigationBar.appearance().barTintColor = UIColor(red: 37/255.0, green: 72/255.0, blue: 116/225.0, alpha: 1.0)
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UITabBar.appearance().barTintColor = UIColor(red: 37/255.0, green: 72/255.0, blue: 116/225.0, alpha: 1.0)
+        UITabBar.appearance().tintColor = UIColor.whiteColor()
+        
         if PFUser.currentUser() != nil {
             print("Detect current User: \(PFUser.currentUser()!.username!)")
             let tabViewController = mainStoryboard.instantiateViewControllerWithIdentifier("Entry") as! TabViewController
@@ -42,23 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = signInViewController
     }
     
-    func initUserinfo(){
-        UserMedia.initProfileImage { (object, error) -> () in
-            if error == nil{
-                profileImageObject = object
-            }else{
-                print("Fatal Error: \(error!)")
-            }
-        }
-        
-        UserMedia.initSharedImagedCount { (object, error) -> () in
-            if error == nil{
-                postCountObject = object
-            }else{
-                print("Fatal Error: \(error!)")
-            }
-        }
-    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

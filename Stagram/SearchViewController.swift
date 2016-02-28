@@ -68,6 +68,8 @@ class SearchViewController: UIViewController, UICollectionViewDataSource, UIColl
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         self.resignFirstResponder()
         searchBar.resignFirstResponder()
+        results = nil
+        collectionView.reloadData()
     }
     
     /*

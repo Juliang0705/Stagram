@@ -26,7 +26,6 @@ class HomeScreenViewController: UIViewController, UITableViewDataSource, UITable
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        print("getting data")
         UserMedia.fetchHomeScreenImages { (objects, error) -> () in
             if error == nil{
                 self.sharedPosts = objects
@@ -80,16 +79,15 @@ class HomeScreenViewController: UIViewController, UITableViewDataSource, UITable
         header.usernameLabel.text = username!
         header.timeLabel.text = getTimePastFromDate(post.createdAt!)
         
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: "viewProfile:")
-        
+        let tapRecognizer1 = UITapGestureRecognizer(target: self, action: "viewProfile:")
+        let tapRecognizer2 = UITapGestureRecognizer(target: self, action: "viewProfile:")
         header.profileImageView.userInteractionEnabled = true
         header.profileImageView.tag = section
-        header.addGestureRecognizer(tapRecognizer)
+        header.profileImageView.addGestureRecognizer(tapRecognizer1)
         
         header.usernameLabel.userInteractionEnabled = true
         header.usernameLabel.tag = section
-        header.addGestureRecognizer(tapRecognizer)
-        
+        header.usernameLabel.addGestureRecognizer(tapRecognizer2)
         return header
     }
     

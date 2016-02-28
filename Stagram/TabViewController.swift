@@ -14,10 +14,28 @@ class TabViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        initUserinfo()
         setUpTabs()
         tabViewController = self
     }
     
+    func initUserinfo(){
+        UserMedia.initProfileImage { (object, error) -> () in
+            if error == nil{
+                profileImageObject = object
+            }else{
+                print("Fatal Error: \(error!)")
+            }
+        }
+        
+        UserMedia.initSharedImagedCount { (object, error) -> () in
+            if error == nil{
+                postCountObject = object
+            }else{
+                print("Fatal Error: \(error!)")
+            }
+        }
+    }
     func setUpTabs(){
         let homeScreenNavigationController = mainStoryboard.instantiateViewControllerWithIdentifier("HomeScreen") as? UINavigationController
         
@@ -25,6 +43,7 @@ class TabViewController: UITabBarController {
         homeScreenViewController?.title = "Home"
         
         homeScreenNavigationController?.tabBarItem.title = "Home"
+        homeScreenViewController?.tabBarItem.image = UIImage(named: "home")
         //------------------------------------------------------------------------------
         let searchNavigationController = mainStoryboard.instantiateViewControllerWithIdentifier("Search") as? UINavigationController
         
@@ -32,6 +51,7 @@ class TabViewController: UITabBarController {
         searchViewController?.title = "Search"
         
         searchNavigationController?.tabBarItem.title = "Search"
+        searchNavigationController?.tabBarItem.image = UIImage(named: "search")
         //------------------------------------------------------------------------------
         
         let cameraNavigationController = mainStoryboard.instantiateViewControllerWithIdentifier("Camera") as? UINavigationController
@@ -40,6 +60,7 @@ class TabViewController: UITabBarController {
         cameraViewController?.title = "Upload"
         
         cameraNavigationController?.tabBarItem.title = "Upload"
+        cameraNavigationController?.tabBarItem.image = UIImage(named: "upload")
         //------------------------------------------------------------------------------
 
         let activityNavigationController = mainStoryboard.instantiateViewControllerWithIdentifier("Activity") as? UINavigationController
@@ -48,6 +69,7 @@ class TabViewController: UITabBarController {
         activityViewController?.title = "Activity"
         
         activityNavigationController?.tabBarItem.title = "Activity"
+        activityNavigationController?.tabBarItem.image = UIImage(named: "activity")
         
         //------------------------------------------------------------------------------
 
@@ -57,6 +79,7 @@ class TabViewController: UITabBarController {
         userViewController?.title = "Me"
         
         userNavigationController?.tabBarItem.title = "User"
+        userNavigationController?.tabBarItem.image = UIImage(named: "user")
         //------------------------------------------------------------------------------
         self.viewControllers = [homeScreenNavigationController!,searchNavigationController!,cameraNavigationController!,activityNavigationController!,userNavigationController!]
         
