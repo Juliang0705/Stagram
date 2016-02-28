@@ -166,6 +166,10 @@ class CameraViewController: UIViewController,UINavigationControllerDelegate,UIIm
         self.filterViews.forEach({$0.removeFromSuperview()})
         if let currentFilterView = self.currentFilterView{
             self.view.addSubview(currentFilterView)
+            self.captionTextField?.removeFromSuperview()
+            if let captionTextField = self.captionTextField{
+                self.view.addSubview(captionTextField)
+            }
         }
         let imageWithCaption = self.view.getImageWithAllSubviews()
         let caption = self.captionTextField?.text == nil ? "" : self.captionTextField?.text!
